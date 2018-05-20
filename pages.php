@@ -3,7 +3,8 @@
 	$content = array(
 		"Account" => "account.php",
 		"My Champions" => "mychampion.php",
-		"Arenas" => "arenas.php"),
-		"Leaderboard" => "leaderboard.php"),
+		"Arenas" => "arenas.php",
+		"Leaderboard" => "leaderboard.php",
+		"About us" => "aboutus.php");
 
 ?>
