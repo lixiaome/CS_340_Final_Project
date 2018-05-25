@@ -5,17 +5,15 @@
 		include "pages.php";
 
 ?>
+<?php include("header.php");?>
 <html>
 	<head>
 		<title>Log In</title>
 		<link rel="stylesheet" href="index.css">
-		<!-- <script type = "text/javascript"  src = "formVerify.js" > </script> -->
 	</head>
 <body>
 
-
 <?php
-	include "header.php";
 	$msg = "Login";
 
 // change the value of $dbuser and $dbpass to your username and password
@@ -35,14 +33,13 @@
 		$resultIn = mysqli_query($conn, $queryIn);
 		if($row = mysqli_fetch_assoc($resultIn)){
 			$salt = $row['salt'];
-			$password = md5('$userpassword$salt');
+			$password = md5($userpassword.$salt);
 			$saltSql = "SELECT * FROM Sponsors WHERE password='$password' ";
 			$resultIn = mysqli_query($conn, $saltSql);
 			if (mysqli_num_rows($resultIn) > 0) {
 				$msg = "Login Succesful";
                 $_SESSION["username"] = $username;
-                echo "<script>location.replace(".json_encode($sendBackTo).");
-                </script>";
+                echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
 
 			}else {
 				$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";

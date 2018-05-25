@@ -1,8 +1,3 @@
-<header> 
-		Battle Royal - <em>Welcome <span id="username"><?php echo $username;?></span>!</em>
-</header>
-<nav>
-<ul>
 <?php
 session_start(); 
 function currentUrl() {
@@ -44,6 +39,13 @@ function checkAuth($redirectIfNeeded) {
 		return "";
 	}
 }
+?>
+<header> 
+		Battle Royal - <em>Welcome <span id="username"><?php echo $username;?></span>!</em>
+</header>
+<nav>
+<ul>
+<?php 
 		foreach ($content as $page => $location){
 			echo "<li><a href='$location?user=".$username."' ".($page==$currentpage?" class='active'":"").">".$page."</a></li>";			
 		}

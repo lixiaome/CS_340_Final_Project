@@ -19,7 +19,15 @@
 	$msg = "Sign up!";
 // change the value of $dbuser and $dbpass to your username and password
 	include 'connectvars.php'; 
-	
+	function RandomString()
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randstring = '';
+    for ($i = 0; $i < 12; $i++) {
+        $randstring = $randstring.$characters[rand(0, strlen($characters))];
+    }
+    return $randstring;
+}
 	$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	if (!$conn) {
 		die('Could not connect: ' . mysql_error());
@@ -30,15 +38,15 @@
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$emailAddress = mysqli_real_escape_string($conn, $_POST['emailAddress']);
 		$userpassword = mysqli_real_escape_string($conn, $_POST['password1']);
-        //create random salt 
-        $salt = mcrypt_create_iv(12, MCRYPT_DEV_URANDOM);
-		$password = md5('$userpassword$salt');
 		$queryIn = "SELECT * FROM Sponsors where username='$username' ";
 		$resultIn = mysqli_query($conn, $queryIn);
         // See if username is already in the table
 		if (mysqli_num_rows($resultIn)> 0) {
 			$msg ="<h2>Can't Add to Table</h2> There is already a user with that username $username<p>";
-		} else {          
+		} else {
+            //create random salt 
+            $salt = RandomString();
+            $password=md5($userpassword.$salt);		       
 			$query = "INSERT INTO Sponsors (username, email, salt, password) VALUES ('$username',  '$emailAddress','$salt', '$password')";
 			if(mysqli_query($conn, $query)){
 			//$msg =  "Account is created<p></p>";
