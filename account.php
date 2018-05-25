@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Add Part Info to Table Part -->
+<!-- Log in -->
 <?php
 		$currentpage="account";
 		include "pages.php";
@@ -7,7 +7,7 @@
 ?>
 <html>
 	<head>
-		<title>Login In</title>
+		<title>Log In</title>
 		<link rel="stylesheet" href="index.css">
 		<!-- <script type = "text/javascript"  src = "formVerify.js" > </script> -->
 	</head>
@@ -26,25 +26,29 @@
 		die('Could not connect: ' . mysql_error());
 	}
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+        // where is the user trying to get back to, after logging in?
+        $sendBackTo = isset($_REQUEST["sendBackTo"]) ? $_REQUEST["sendBackTo"] : "mychampion.php";
 // Escape user inputs for security
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
-		$password = mysqli_real_escape_string($conn, $_POST['password']);
-		$queryIn = "SELECT * FROM HW1 where username='$username' ";
+		$userpassword = mysqli_real_escape_string($conn, $_POST['password']);
+		$queryIn = "SELECT * FROM Sponsors where username='$username' ";
 		$resultIn = mysqli_query($conn, $queryIn);
 		if($row = mysqli_fetch_assoc($resultIn)){
 			$salt = $row['salt'];
-			$saltedpassword = md5($password);
-			$saltSql = "SELECT * FROM HW1 WHERE password='$saltedpassword' ";
-			//$queryIn = "SELECT * FROM HW1 WHERE username='$username' and password='$password' ";
+			$password = md5('$userpassword$salt');
+			$saltSql = "SELECT * FROM Sponsors WHERE password='$password' ";
 			$resultIn = mysqli_query($conn, $saltSql);
 			if (mysqli_num_rows($resultIn) > 0) {
 				$msg = "Login Succesful";
+                $_SESSION["username"] = $username;
+                echo "<script>location.replace(".json_encode($sendBackTo).");
+                </script>";
+
 			}else {
 				$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
 			}
 		} else {
-			$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
+			$msg = "<h2>Can't Login</h2> Username doesn't exist.<p>";
 		}
 }
 // close connection

@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html>
-<!-- Add Part Info to Table Part -->
+<!DOCTYPE html>
+<!-- Create new account -->
 <?php
 		$currentpage="Sign Up";
 		include "pages.php";
@@ -17,7 +17,6 @@
 <?php
 	include "header.php";
 	$msg = "Sign up!";
-
 // change the value of $dbuser and $dbpass to your username and password
 	include 'connectvars.php'; 
 	
@@ -29,26 +28,21 @@
 
 // Escape user inputs for security
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
-		$firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
-		$lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
 		$emailAddress = mysqli_real_escape_string($conn, $_POST['emailAddress']);
-		$age = mysqli_real_escape_string($conn, $_POST['age']);		
-		$salt = md5('$firstname');
 		$userpassword = mysqli_real_escape_string($conn, $_POST['password1']);
-		$msg = $userpassword + $salt;
-		$password = md5($userpassword);
-		$queryIn = "SELECT * FROM HW1 where username='$username' ";
+        //create random salt 
+        $salt = mcrypt_create_iv(12, MCRYPT_DEV_URANDOM);
+		$password = md5('$userpassword$salt');
+		$queryIn = "SELECT * FROM Sponsors where username='$username' ";
 		$resultIn = mysqli_query($conn, $queryIn);
-		
-// See if pid is already in the table
+        // See if username is already in the table
 		if (mysqli_num_rows($resultIn)> 0) {
 			$msg ="<h2>Can't Add to Table</h2> There is already a user with that username $username<p>";
-		} else {		
-			
-			$query = "INSERT INTO HW1 (username, firstname, lastname, emailAddress, password, age, salt) VALUES ('$username', '$firstname', '$lastname', '$emailAddress', '$password', '$age', '$salt')";
-			
+		} else {          
+			$query = "INSERT INTO Sponsors (username, email, salt, password) VALUES ('$username',  '$emailAddress','$salt', '$password')";
 			if(mysqli_query($conn, $query)){
-			//$msg =  "Record added successfully.<p>";
+			//$msg =  "Account is created<p></p>";
+            echo '<p>Account is created...You may now <a href="account.php">log in...</a></p>';
 			} else{
 			echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
 			}
@@ -71,16 +65,6 @@ mysqli_close($conn);
     </p>
 
     <p>
-        <label for="First Name">First Name:</label>
-        <input type="text" class="required" name="firstname" id="firstname">
-    </p>
-
-    <p>
-        <label for="Last Name">Last Name:</label>
-        <input type="text" class="required" name="lastname" id="lastname">
-    </p>
-
-    <p>
         <label for="Email Address">Email:</label>
         <input type="text" class="required" name="emailAddress" id="emailAddress">
     </p>
@@ -91,14 +75,8 @@ mysqli_close($conn);
     </p>
 
     <p>
-        <label for="Password">Password:</label>
+        <label for="Password">Confirm Password:</label>
         <input type="text" class="required" name="password1" id="password2">
-    </p>
-
-
-    <p>
-        <label for="Age">Age:</label>
-        <input type="number" min=1 max = 99999 class="required" name="age" id="age" title="age should be numeric">
     </p>
 
 </fieldset>
