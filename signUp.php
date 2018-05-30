@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<!-- Create new account -->
 <?php
+		session_start();
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
 		$currentpage="Sign Up";
 		include "pages.php";
-		
+
 ?>
 <html>
 	<head>
 		<title>Sign Up</title>
 		<link rel="stylesheet" href="index.css">
-		<script type = "text/javascript"  src = "formVerify.js" > </script> 
+		<script type = "text/javascript"  src = "formVerify.js" > </script>
 	</head>
 <body>
 
 
 <?php
-	include "header.php";
+
+	include 'header.php';
 	$msg = "Sign up!";
 // change the value of $dbuser and $dbpass to your username and password
-	include 'connectvars.php'; 
+	include 'connectvars.php';
 	function RandomString()
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -44,9 +47,9 @@
 		if (mysqli_num_rows($resultIn)> 0) {
 			$msg ="<h2>Can't Add to Table</h2> There is already a user with that username $username<p>";
 		} else {
-            //create random salt 
+            //create random salt
             $salt = RandomString();
-            $password=md5($userpassword.$salt);		       
+            $password=md5($userpassword.$salt);
 			$query = "INSERT INTO Sponsors (username, email, salt, password) VALUES ('$username',  '$emailAddress','$salt', '$password')";
 			if(mysqli_query($conn, $query)){
 			//$msg =  "Account is created<p></p>";

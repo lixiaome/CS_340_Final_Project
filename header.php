@@ -1,5 +1,9 @@
 <?php
-session_start(); 
+if (!isset($_SESSION['username'])){
+  $_SESSION['username'] = "";
+}
+
+
 function currentUrl() {
 	$pageURL = 'http';
 	if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
@@ -29,8 +33,8 @@ function checkAuth($redirectIfNeeded) {
 		// rawurlencode converts the string so it's safe to pass as a URL GET parameter
 		$urlOfLogin = "account.php?sendBackTo=".rawurlencode($currentUrl)."&cb=".microtime(true);
 
-		// use a JavaScript redirect; FYI, there's also an http header (Location:) that 
-		//    can be used to redirect, but that MUST be sent before any HTML, and this 
+		// use a JavaScript redirect; FYI, there's also an http header (Location:) that
+		//    can be used to redirect, but that MUST be sent before any HTML, and this
 		//    function (checkAuth) might be called after some HTML is sent
 		echo "<script>location.replace('$urlOfLogin');</script>";
 		return "";
@@ -40,14 +44,14 @@ function checkAuth($redirectIfNeeded) {
 	}
 }
 ?>
-<header> 
-		Battle Royal - <em>Welcome <span id="username"><?php echo $username;?></span>!</em>
+<header>
+		Battle Royal - <em>Welcome <span id="username"><?php echo $_SESSION['username'];?></span>!</em>
 </header>
 <nav>
 <ul>
-<?php 
+<?php
 		foreach ($content as $page => $location){
-			echo "<li><a href='$location?user=".$username."' ".($page==$currentpage?" class='active'":"").">".$page."</a></li>";			
+			echo "<li><a href='$location?user=".$_SESSION['username']."' ".($page==$currentpage?" class='active'":"").">".$page."</a></li>";
 		}
 		?>
 		</ul>

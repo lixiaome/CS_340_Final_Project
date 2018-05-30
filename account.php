@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<!-- Log in -->
 <?php
+		session_start();
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
 		$currentpage="account";
 		include "pages.php";
 
 ?>
-<?php include("header.php");?>
+<?php include 'header.php';?>
 <html>
 	<head>
 		<title>Log In</title>
@@ -24,9 +26,9 @@
 		die('Could not connect: ' . mysql_error());
 	}
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // where is the user trying to get back to, after logging in?
-        $sendBackTo = isset($_REQUEST["sendBackTo"]) ? $_REQUEST["sendBackTo"] : "mychampion.php";
-// Escape user inputs for security
+    // where is the user trying to get back to, after logging in?
+    $sendBackTo = isset($_REQUEST["sendBackTo"]) ? $_REQUEST["sendBackTo"] : "mychampion.php";
+		// Escape user inputs for security
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$userpassword = mysqli_real_escape_string($conn, $_POST['password']);
 		$queryIn = "SELECT * FROM Sponsors where username='$username' ";
@@ -38,9 +40,8 @@
 			$resultIn = mysqli_query($conn, $saltSql);
 			if (mysqli_num_rows($resultIn) > 0) {
 				$msg = "Login Succesful";
-                $_SESSION["username"] = $username;
-                echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
-
+        $_SESSION["username"] = $username;
+        echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
 			}else {
 				$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
 			}
