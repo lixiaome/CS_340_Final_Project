@@ -25,35 +25,36 @@
 	if (!$conn) {
 		die('Could not connect: ' . mysql_error());
 	}
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // where is the user trying to get back to, after logging in?
-    $sendBackTo = isset($_REQUEST["sendBackTo"]) ? $_REQUEST["sendBackTo"] : "mychampion.php";
-		// Escape user inputs for security
-		$username = mysqli_real_escape_string($conn, $_POST['username']);
-		$userpassword = mysqli_real_escape_string($conn, $_POST['password']);
-		$queryIn = "SELECT * FROM Sponsors where username='$username' ";
-		$resultIn = mysqli_query($conn, $queryIn);
-		if($row = mysqli_fetch_assoc($resultIn)){
-			$salt = $row['salt'];
-			$password = md5($userpassword.$salt);
-			$saltSql = "SELECT * FROM Sponsors WHERE password='$password' ";
-			$resultIn = mysqli_query($conn, $saltSql);
-			if (mysqli_num_rows($resultIn) > 0) {
-				$msg = "Login Succesful";
-        $_SESSION["username"] = $username;
-        echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
-			}else {
-				$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
-			}
-		} else {
-			$msg = "<h2>Can't Login</h2> Username doesn't exist.<p>";
-		}
-}
-// close connection
-mysqli_close($conn);
 
+	if(checkAuth(0) == ""){
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	    // where is the user trying to get back to, after logging in?
+	    $sendBackTo = isset($_REQUEST["sendBackTo"]) ? $_REQUEST["sendBackTo"] : "mychampion.php";
+			// Escape user inputs for security
+			$username = mysqli_real_escape_string($conn, $_POST['username']);
+			$userpassword = mysqli_real_escape_string($conn, $_POST['password']);
+			$queryIn = "SELECT * FROM Sponsors where username='$username' ";
+			$resultIn = mysqli_query($conn, $queryIn);
+			if($row = mysqli_fetch_assoc($resultIn)){
+				$salt = $row['salt'];
+				$password = md5($userpassword.$salt);
+				$saltSql = "SELECT * FROM Sponsors WHERE password='$password' ";
+				$resultIn = mysqli_query($conn, $saltSql);
+				if (mysqli_num_rows($resultIn) > 0) {
+					$msg = "Login Succesful";
+	        $_SESSION["username"] = $username;
+	        echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
+				}else {
+					$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
+				}
+			} else {
+				$msg = "<h2>Can't Login</h2> Username doesn't exist.<p>";
+			}
+	}
+	// close connection
+	mysqli_close($conn);
 ?>
-	<section>
+<section>
     <h2> <?php echo $msg; ?> </h2>
 
 <form method="post" id="addForm">
@@ -81,5 +82,45 @@ mysqli_close($conn);
   Don't have an account? Sign up <a href="signUp.php">here</a>
 </p>
 
+<?php }else{
+	$username = (string)($_SESSION['username']);
+	$queryIn = "SELECT wins, credits, cNum FROM Sponsors WHERE username = '$username'";
+	$resultIn = mysqli_query($conn, $queryIn);
+
+	echo $username;
+	echo "<table id='t01' border='t'><tr>";
+	$fields_num = mysqli_num_fields($resultIn);
+	for($i = 0;$i < $fields_num; $i++){
+		$field = mysqli_fetch_field($resultIn);
+		echo "<td><b>$field->name</b></td>";
+	}
+	echo "</tr>\n";
+	while($row = mysqli_fetch_row($resultIn)) {
+		echo "<tr>";
+		foreach($row as $cell){
+			echo "<td>$cell</td>";
+		}
+		echo "</tr>\n";
+	}
+
+	$queryIn = "SELECT C.name, C.arena, C.level, C.exp, C.power, C.intelligence, C.endurance FROM Champions C WHERE C.username = '$username'";
+	$resultIn2 = mysqli_query($conn, $queryIn);
+	echo "<table id='t01' border='t'><tr>";
+	$fields_num = mysqli_num_fields($resultIn2);
+	for($i = 0;$i < $fields_num; $i++){
+		$field = mysqli_fetch_field($resultIn2);
+		echo "<td><b>$field->name</b></td>";
+	}
+	echo "</tr>\n";
+	while($row = mysqli_fetch_row($resultIn2)) {
+		echo "<tr>";
+		foreach($row as $cell){
+			echo "<td>$cell</td>";
+		}
+		echo "</tr>\n";
+	}
+	mysqli_close($conn);
+}
+?>
 </body>
 </html>
