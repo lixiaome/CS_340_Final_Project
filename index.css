@@ -1,34 +1,52 @@
+h1 {
+    text-align: center;
+    color: gold;
+    letter-spacing: 0;
+    text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555;
+}
+h2{
+    color:white;
+}
+body {
+    background-image: url(./images/bg.jpg);
+    background-size:cover;
+}
+h3 {
+    color: white;
+    text-align: center;
+}
+title{
+    color:white;
+}
 header {
+    height: 20px;
+    background-color: none;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    padding: 20px 20px 20px 20px;
+    font-size: 1.5em;
+    text-align: center;
+    color: orangered;
+    letter-spacing: 0;
+}
 
-	height: 20px;
-	background-color: lightgray;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	padding: 20px 20px 20px 20px;
-	font-size: 1.5em;
-
-}
-header > h1 {
-	color: white;
-	font-size : 3em;
-	font-style: italic;
-	text-align: right;
-}
-header > img {
-    float: left;
-    margin: 0 0 10px 10px;
-}
 
 header em {
-	font-size: 0.75em
+        font-size: 1.1em;
+        font-family: Helvetica;
 }
-
-
+p.aboutus {
+    color: white;
+    text-align: center;
+}
+p.white{
+    color:white;
+}
 html {
-	background-color: light gray;
-	font-family: Helvetica;
-	font-size: 18px;
+    background-color: lightblue;
+    font-family: Helvetica;
+    font-size: 18px;
 }
 nav ul {
     list-style-type: none;
@@ -334,7 +352,7 @@ caption {
 	flex-direction: column;
 }
 .arena-contents #name{
-	
+
 }
 
 #aview-button{
