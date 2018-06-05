@@ -10,7 +10,7 @@
 ?>
 <html>
 	<head>
-		<title>Logout</title>
+		<h2>Logout</h2>
 		<link rel="stylesheet" href="index.css">
 	</head>
 <body>
@@ -22,7 +22,7 @@ session_destroy()
 ?>
 
 
-<p>You are logged out.</p>
+<p class="white">You are logged out.</p>
 
 
 </body>

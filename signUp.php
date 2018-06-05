@@ -53,7 +53,7 @@
 			$query = "INSERT INTO Sponsors (username, email, salt, password) VALUES ('$username',  '$emailAddress','$salt', '$password')";
 			if(mysqli_query($conn, $query)){
 			//$msg =  "Account is created<p></p>";
-            echo '<p>Account is created...You may now <a href="account.php">log in...</a></p>';
+            echo '<p class="white">Account is created...You may now <a href="account.php">log in...</a></p>';
 			} else{
 			echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
 			}

@@ -5,12 +5,11 @@
 		error_reporting(E_ALL);
 		$currentpage="account";
 		include "pages.php";
-
 ?>
 <?php include 'header.php';?>
 <html>
 	<head>
-		<title>Log In</title>
+		
 		<link rel="stylesheet" href="index.css">
 	</head>
 <body>
@@ -45,10 +44,10 @@
 	        $_SESSION["username"] = $username;
 	        echo "<script>location.replace(".json_encode($sendBackTo).");</script>";
 				}else {
-					$msg = "<h2>Can't Login</h2> Username or password doesn't match<p>";
+					$msg = "<h2>Can't Login <br> Username or password doesn't match</h2> <p>";
 				}
 			} else {
-				$msg = "<h2>Can't Login</h2> Username doesn't exist.<p>";
+				$msg = "<h2>Can't Login <br> Username doesn't exist.</h2><p>";
 			}
 	}
 	// close connection
@@ -78,16 +77,16 @@
       </p>
 </form>
 
-<p>
+<p class = "white">
   Don't have an account? Sign up <a href="signUp.php">here</a>
 </p>
 
 <?php }else{
 	$username = (string)($_SESSION['username']);
 	$queryIn = "SELECT wins, credits, cNum FROM Sponsors WHERE username = '$username'";
-	$resultIn = mysqli_query($conn, $queryIn);
+	$resultIn = mysqli_query($conn, $queryIn); 
 
-	echo $username;
+    echo "<h3>$username</h3>";
 	echo "<table id='t01' border='t'><tr>";
 	$fields_num = mysqli_num_fields($resultIn);
 	for($i = 0;$i < $fields_num; $i++){
