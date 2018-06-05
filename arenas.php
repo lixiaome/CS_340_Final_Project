@@ -42,18 +42,33 @@
 	if (checkAuth(true) != "") {
 	if(!isset($_GET['arena'])){
 				$arenas = mysqli_query($conn,"SELECT * FROM Arena");
+				echo "<div class=arena-container>";
 				if(mysqli_num_rows($arenas) > 0 ){
 					while($row = mysqli_fetch_row($arenas)){
-						echo "<div class=arena>";
-						echo "<h3>".$row[0]."</h3>";
-						echo "<h3>".$row[1]."</h3>";
-						echo "<h3>".$row[2]."</h3>";
-						echo "<input type='button' onclick=\"window.location.href='arenas.php?arena=".$row[0]."'\" name='$row[0]' value='View'/>";
+						echo "<div class='arena'>";
+						echo "<div class='arena-contents' id='name'>".$row[0]."</div>";
+						echo "<div class='arena-contents' id='weather'> <bold>Weather:</bold> ".$row[1]."</div>";
+						echo "<div class='arena-contents' id='cNum'> <bol>Champions:</bold> ".$row[2]."</div>";
+						echo "<input class='arena-contents' id='aview-button' type='button' onclick=\"window.location.href='arenas.php?arena=".$row[0]."'\" name='$row[0]' value='View'/>";
 						echo "</div>";
 					}
 				}
+				echo "</div>";
 				mysqli_free_result($arenas);
 	} else {
+		if(checkAuth(false) != ""){
+			$username = $_SESSION['username'];
+			$queryIn = "SELECT C.cID, C.name, C.level, C.exp, C.power, C.intelligence, C.endurance FROM Champions C WHERE C.username = '$username' AND C.arena IS NULL AND C.alive = 1";
+			$resultIn = mysqli_query($conn, $queryIn);
+			echo "<table id='t01' border='t'><tr>";
+			while($row = mysqli_fetch_row($resultIn)) {
+				echo "<tr>";
+				foreach($row as $cell){
+					echo "<td>$cell</td>";
+				}
+				echo "</tr>\n";
+			}
+		}
 		$var = $_GET['arena'];
 		$query = "SELECT * FROM Events WHERE arena = '$var'";
 
