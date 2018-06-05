@@ -5,7 +5,7 @@
 		error_reporting(E_ALL);
 		$currentpage="Leaderboard";
 		include "pages.php";
-    include "header.php";
+    		include "header.php";
 ?>
 <html>
 	<head>

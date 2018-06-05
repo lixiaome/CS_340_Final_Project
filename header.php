@@ -1,4 +1,11 @@
 <?php
+		//define('ROOT_PATH',str_replace("\\",'/',substr(dirname(__FILE__),0,26)));
+		//$savePath=ROOT_PATH."/tmp/";
+		//if (!file_exists($savePath)){ 
+		//mkdir($savePath,0777,true);
+		//}
+		//session_save_path($savePath);	
+		//session_start();
 if (!isset($_SESSION['username'])){
   $_SESSION['username'] = "";
 }
@@ -45,7 +52,7 @@ function checkAuth($redirectIfNeeded) {
 }
 ?>
 <header>
-		Battle Royal - <em>Welcome <span id="username"><?php echo $_SESSION['username'];?></span>!</em>
+		Battle Royal - Welcome <em> <?php echo $_SESSION['username'];?>!</em>
 </header>
 <nav>
 <ul>

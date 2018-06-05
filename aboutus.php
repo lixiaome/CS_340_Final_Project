@@ -13,7 +13,8 @@
 		<link rel="stylesheet" href="index.css">
 	</head>
 <body>
-  <?php echo "We can view About us without Login"; ?>
+  <p class="aboutus">This website is the final project for CS 340 Spring18. Created by Group 15:<br>Jared Tence<br>Kaiyuan Fan<br>Xiaomeng Li<br>Nickoli Londura
+</p>
 
  </body>
 </html>
