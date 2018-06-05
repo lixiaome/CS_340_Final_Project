@@ -9,7 +9,7 @@
 <?php include 'header.php';?>
 <html>
 	<head>
-		
+
 		<link rel="stylesheet" href="index.css">
 	</head>
 <body>
@@ -83,7 +83,6 @@
 
 <?php }else{
 	$username = (string)($_SESSION['username']);
-<<<<<<< HEAD
 	$queryIn = "SELECT wins, credits FROM Sponsors WHERE username = '$username'";
 	$resultIn = mysqli_query($conn, $queryIn);
 	$userdata =  mysqli_fetch_assoc($resultIn);
@@ -97,13 +96,7 @@
 
 	echo "<h4>Champions</h4>";
 	echo "<table id='championtable' border='t'><tr>";
-=======
-	$queryIn = "SELECT wins, credits, cNum FROM Sponsors WHERE username = '$username'";
-	$resultIn = mysqli_query($conn, $queryIn); 
-
-    echo "<h3>$username</h3>";
 	echo "<table id='t01' border='t'><tr>";
->>>>>>> 5a2ce37b6012e3f7184d9aa87bc6ad078f74df93
 	$fields_num = mysqli_num_fields($resultIn);
 	for($i = 0;$i < $fields_num; $i++){
 		$field = mysqli_fetch_field($resultIn);
