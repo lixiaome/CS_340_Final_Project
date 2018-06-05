@@ -84,41 +84,40 @@
 
 <?php }else{
 	$username = (string)($_SESSION['username']);
-	$queryIn = "SELECT wins, credits, cNum FROM Sponsors WHERE username = '$username'";
+	$queryIn = "SELECT wins, credits FROM Sponsors WHERE username = '$username'";
 	$resultIn = mysqli_query($conn, $queryIn);
+	$userdata =  mysqli_fetch_assoc($resultIn);
+	echo "<div class='account'>";
+	echo "<div id='username'>".$username."</div>";
+	echo "<div id='stats'> <p> <bold>Stats:</bold> <br> Wins: ".$userdata['wins']." <br> credits: ".$userdata['credits']." </p> </div>";
 
-	echo $username;
-	echo "<table id='t01' border='t'><tr>";
+	$queryIn = "SELECT C.name, C.arena, C.level, C.exp, C.power, C.intelligence, C.endurance FROM Champions C WHERE C.username = '$username'";
+	$resultIn = mysqli_query($conn, $queryIn);
+	echo "<div id='champions'>";
+
+	echo "<h4>Champions</h4>";
+	echo "<table id='championtable' border='t'><tr>";
 	$fields_num = mysqli_num_fields($resultIn);
 	for($i = 0;$i < $fields_num; $i++){
 		$field = mysqli_fetch_field($resultIn);
 		echo "<td><b>$field->name</b></td>";
 	}
-	echo "</tr>\n";
-	while($row = mysqli_fetch_row($resultIn)) {
-		echo "<tr>";
-		foreach($row as $cell){
-			echo "<td>$cell</td>";
-		}
-		echo "</tr>\n";
+	echo "<tr>";
+	while($row = mysqli_fetch_assoc($resultIn)){
+		echo "<div class='champion'>";
+		echo "<td>".$row['name']."</td>";
+		echo "<td>".(isset($row['arena']) ? $row['arena'] : "relaxing")."</td>";
+		echo "<td>".$row['level']."</td>";
+		echo "<td>".$row['exp']."</td>";
+		echo "<td>".$row['power']."</td>";
+		echo "<td>".$row['intelligence']."</td>";
+		echo "<td>".$row['endurance']."</td>";
+		echo "</div>";
 	}
+	echo "</tr>";
+	echo "</div>";
 
-	$queryIn = "SELECT C.name, C.arena, C.level, C.exp, C.power, C.intelligence, C.endurance FROM Champions C WHERE C.username = '$username'";
-	$resultIn2 = mysqli_query($conn, $queryIn);
-	echo "<table id='t01' border='t'><tr>";
-	$fields_num = mysqli_num_fields($resultIn2);
-	for($i = 0;$i < $fields_num; $i++){
-		$field = mysqli_fetch_field($resultIn2);
-		echo "<td><b>$field->name</b></td>";
-	}
-	echo "</tr>\n";
-	while($row = mysqli_fetch_row($resultIn2)) {
-		echo "<tr>";
-		foreach($row as $cell){
-			echo "<td>$cell</td>";
-		}
-		echo "</tr>\n";
-	}
+	echo "</div>";
 	mysqli_close($conn);
 }
 ?>

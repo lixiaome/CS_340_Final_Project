@@ -36,7 +36,9 @@
 		die('Could not connect: ' . mysql_error());
 	}
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+		foreach($_POST as $key => $value) {
+			echo "key: ".$key." value: ".$value;
+		}
 // Escape user inputs for security
 		$username = mysqli_real_escape_string($conn, $_POST['username']);
 		$emailAddress = mysqli_real_escape_string($conn, $_POST['emailAddress']);

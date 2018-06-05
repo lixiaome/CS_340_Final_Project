@@ -332,12 +332,40 @@ caption {
 	float: left;
 	margin: 5px auto;
 	flex-direction: column;
-
 }
-.arena #name{
+.arena-contents #name{
 	color: red;
 }
 
 #aview-button{
 	color: orange;
+}
+
+.account{
+  margin: 100px 10%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.account #username{
+	margin: 10px;
+	background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+	width: 100%;
+	font-size: 100px;
+}
+
+.account #stats{
+	height: 200px;
+	width: 10%;
+  display: flex;
+  margin: 2px;
+  padding: 20px;
+  border: 1px solid #dadada;
+  border-radius: 2px;
+  background-color: #fff;
+}
+
+#champions{
+	width: 80%;
+	padding: 20px;
 }
