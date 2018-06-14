@@ -12,7 +12,7 @@
 	<head>
 		<title>Arenas</title>
 		<link rel="stylesheet" href="index.css">
-		 <script src="arenaHandler.js"></script>
+		 <script type = "text/javascript" src="arenaHandler.js"></script>
 	</head>
 
 <body>
@@ -32,6 +32,7 @@
 			}
 			echo "</tr>\n";
 		}
+			echo "</table>";
 	}
 
 
@@ -68,31 +69,46 @@
 				}
 				echo "</tr>\n";
 			}
+					echo "</table>";
 		}
+
 		$var = $_GET['arena'];
-		$query = "SELECT * FROM Events WHERE arena = '$var'";
+		
 
-		$result = mysqli_query($conn, $query);
-		if(!$result){
-			die("Query couldn't complete");
-		}
-		echo "<h1>Events</h1>";
-		display($result);
-
-		$query = "SELECT * FROM Champions WHERE arena = '$var'";
-
-		$result = mysqli_query($conn, $query);
-		if(!$result){
-			die("Query couldn't complete");
-		}
-
+		
 		echo "<h1>Champions</h1>";
+		
+		$query = "SELECT username,name,alive FROM Champions WHERE arena = '$var'";
+
+		$result = mysqli_query($conn, $query);
+		if(!$result){
+			die("Query couldn't complete");
+		}
 		display($result);
+		
 	}
 
-		mysqli_close($conn);
+	
 
+	
 	?>
+	<h1>Events</h1>
+	<textarea cols = 85 rows = 25 readonly id = 'displayEvents'></textarea>
+	<br><input type = button value = 'START' onclick = areaStart()>
+	<div hidden>
+		<?php
+
+			$query = "SELECT numChampions FROM Arena WHERE name = '$var'";
+			$result = mysqli_query($conn, $query);
+			if(!$result){
+				die("Query couldn't complete");
+			}
+			$num = mysqli_fetch_row($result);
+			echo "<input type = 'number' id = 'numChams' readonly value = $num[0]>";
+		}
+		mysqli_close($conn);
+		?>
+	</div>
+	
  </body>
 </html>
-<?php } ?>
